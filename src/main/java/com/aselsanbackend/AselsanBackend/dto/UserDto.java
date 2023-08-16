@@ -1,9 +1,11 @@
 package com.aselsanbackend.AselsanBackend.dto;
 
+import com.aselsanbackend.AselsanBackend.entity.*;
 import jakarta.persistence.Transient;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -18,5 +20,10 @@ public class UserDto {
 
     @Transient
     private String authentication;
+    private List<String> ilgiAlanları;
+    private List<StajBilgileri> stajBilgileriList;
+    private List<ProjeDeneyimleri> projeDeneyimleriList;
+    private List<EğitimBilgilerim> eğitimBilgilerimList;
+
 
 }

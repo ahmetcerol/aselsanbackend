@@ -5,9 +5,10 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users_version_2")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -27,4 +28,22 @@ public class User implements Serializable {
 
     @Transient
     private String authentication;
+
+    @OneToMany
+    @JoinColumn(name = "user_tc_kimlik_no")
+    private List<İlgiAlanları> adresleri;
+
+    @OneToMany
+    @JoinColumn(name = "tc_kimlik_no")
+    private List<StajBilgileri> stajBilgileri;
+
+    @OneToMany
+    @JoinColumn(name = "tc_kimlik_no")
+    private List<ProjeDeneyimleri> projeDeneyimleri;
+
+    @OneToMany
+    @JoinColumn(name = "tc_kimlik_no")
+    private List<EğitimBilgilerim> eğitimBilgilerimList;
+
+
 }

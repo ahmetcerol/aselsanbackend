@@ -1,7 +1,11 @@
 package com.aselsanbackend.AselsanBackend.service.implementation;
 
 import com.aselsanbackend.AselsanBackend.dto.UserDto;
+import com.aselsanbackend.AselsanBackend.entity.EğitimBilgilerim;
+import com.aselsanbackend.AselsanBackend.entity.ProjeDeneyimleri;
+import com.aselsanbackend.AselsanBackend.entity.StajBilgileri;
 import com.aselsanbackend.AselsanBackend.entity.User;
+import com.aselsanbackend.AselsanBackend.repository.DetailedUserRepository;
 import com.aselsanbackend.AselsanBackend.repository.UserRepository;
 import com.aselsanbackend.AselsanBackend.security.PasswordHasher;
 import com.aselsanbackend.AselsanBackend.service.UserService;
@@ -19,6 +23,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final DetailedUserRepository detailedUserRepository;
 
     @Autowired
     private  PasswordHasher passwordHasher;
@@ -35,6 +40,7 @@ public class UserServiceImpl implements UserService {
         user.setEPosta(userDto.getEPosta());
         user.setBirthDate(userDto.getBirthDate());
         userRepository.save(user);
+
 
         return userDto;
     }
@@ -57,8 +63,103 @@ public class UserServiceImpl implements UserService {
             userDto.setSoyad(it.getSoyad());
             userDto.setEPosta(it.getEPosta());
             userDto.setBirthDate(it.getBirthDate());
+
+            List<String> ilgiAlanlari = new ArrayList<>();
+            it.getAdresleri().forEach(adres -> {
+                ilgiAlanlari.add(adres.getIlgiAlanı());
+            });
+            userDto.setIlgiAlanları(ilgiAlanlari);
+
+            List<ProjeDeneyimleri> projeDeneyimleriList = new ArrayList<>();
+            it.getProjeDeneyimleri().forEach(adres -> {
+                ProjeDeneyimleri projeler = new ProjeDeneyimleri();
+                projeler.setProjeAdi(adres.getProjeAdi());
+                projeler.setProjeKurum(adres.getProjeKurum());
+                projeler.setProjeDeadlines(adres.getProjeDeadlines());
+                projeler.setProjeDetay(adres.getProjeDetay());
+                projeDeneyimleriList.add(projeler);
+            });
+            userDto.setProjeDeneyimleriList(projeDeneyimleriList);
+
+            List<StajBilgileri> stajBilgileris = new ArrayList<>();
+            it.getStajBilgileri().forEach(adres -> {
+                StajBilgileri stajBilgisi = new StajBilgileri();
+                stajBilgisi.setStajYili(adres.getStajYili());
+                stajBilgisi.setStajTürü(adres.getStajTürü());
+                stajBilgisi.setStajYeri(adres.getStajYeri());
+                stajBilgisi.setStajBölümü(adres.getStajBölümü());
+                stajBilgisi.setStajSüresi(adres.getStajSüresi());
+                stajBilgileris.add(stajBilgisi);
+            });
+            userDto.setStajBilgileriList(stajBilgileris);
+
+            List<EğitimBilgilerim> eğitimBilgilerims = new ArrayList<>();
+            it.getEğitimBilgilerimList().forEach(eğitim -> {
+                EğitimBilgilerim güncelEğitimler = new EğitimBilgilerim();
+                güncelEğitimler.setOkulAdi(eğitim.getOkulAdi());
+                güncelEğitimler.setStartDate(eğitim.getStartDate());
+                güncelEğitimler.setFinishDate(eğitim.getFinishDate());
+                eğitimBilgilerims.add(güncelEğitimler);
+            });
+            userDto.setEğitimBilgilerimList(eğitimBilgilerims);
             usersDtoS.add(userDto);
         });
         return usersDtoS;
+    }
+
+    @Override
+    public List<StajBilgileri> getStajBilgileri(User user) {
+        List<StajBilgileri> stajBilgileriDtoList = new ArrayList<>();
+        user.getStajBilgileri().forEach(stajBilgisi -> {
+            StajBilgileri stajBilgisiDto = new StajBilgileri();
+            stajBilgisiDto.setStajYili(stajBilgisi.getStajYili());
+            stajBilgisiDto.setStajTürü(stajBilgisi.getStajTürü());
+            stajBilgisiDto.setStajYeri(stajBilgisi.getStajYeri());
+            stajBilgisiDto.setStajBölümü(stajBilgisi.getStajBölümü());
+            stajBilgisiDto.setStajSüresi(stajBilgisi.getStajSüresi());
+            stajBilgileriDtoList.add(stajBilgisiDto);
+        });
+        return stajBilgileriDtoList;
+    }
+
+    @Override
+    public List<ProjeDeneyimleri> getProjeDeneyimleri(User user) {
+        List<ProjeDeneyimleri> projeDeneyimleriDtoList = new ArrayList<>();
+        user.getProjeDeneyimleri().forEach(projeDeneyimi -> {
+            ProjeDeneyimleri projeDeneyimiDto = new ProjeDeneyimleri();
+            projeDeneyimiDto.setProjeAdi(projeDeneyimi.getProjeAdi());
+            projeDeneyimiDto.setProjeKurum(projeDeneyimi.getProjeKurum());
+            projeDeneyimiDto.setProjeDeadlines(projeDeneyimi.getProjeDeadlines());
+            projeDeneyimiDto.setProjeDetay(projeDeneyimi.getProjeDetay());
+            projeDeneyimleriDtoList.add(projeDeneyimiDto);
+        });
+        return projeDeneyimleriDtoList;
+
+    }
+
+    @Override
+    public List<EğitimBilgilerim> getEğitimBilgilerim(User user) {
+        List<EğitimBilgilerim> eğitimDtoList = new ArrayList<>();
+        user.getEğitimBilgilerimList().forEach(eğitim -> {
+            EğitimBilgilerim güncelEğitimler = new EğitimBilgilerim();
+            güncelEğitimler.setOkulAdi(eğitim.getOkulAdi());
+            güncelEğitimler.setStartDate(eğitim.getStartDate());
+            güncelEğitimler.setFinishDate(eğitim.getFinishDate());
+            eğitimDtoList.add(güncelEğitimler);
+        });
+        return eğitimDtoList;
+    }
+
+
+    public boolean updatePasswordByTcKimlikNo(String tcKimlikNo, String newPassword) {
+        User user = userRepository.findByTcKimlikNo(tcKimlikNo);
+        String hashedPassword = PasswordHasher.hashPassword(tcKimlikNo + newPassword);
+        if (user != null) {
+            user.setPassword(hashedPassword);
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
