@@ -1,10 +1,7 @@
 package com.aselsanbackend.AselsanBackend.service.implementation;
 
 import com.aselsanbackend.AselsanBackend.dto.UserDto;
-import com.aselsanbackend.AselsanBackend.entity.EğitimBilgilerim;
-import com.aselsanbackend.AselsanBackend.entity.ProjeDeneyimleri;
-import com.aselsanbackend.AselsanBackend.entity.StajBilgileri;
-import com.aselsanbackend.AselsanBackend.entity.User;
+import com.aselsanbackend.AselsanBackend.entity.*;
 import com.aselsanbackend.AselsanBackend.repository.DetailedUserRepository;
 import com.aselsanbackend.AselsanBackend.repository.UserRepository;
 import com.aselsanbackend.AselsanBackend.security.PasswordHasher;
@@ -69,6 +66,7 @@ public class UserServiceImpl implements UserService {
                 ilgiAlanlari.add(adres.getIlgiAlanı());
             });
             userDto.setIlgiAlanları(ilgiAlanlari);
+
 
             List<ProjeDeneyimleri> projeDeneyimleriList = new ArrayList<>();
             it.getProjeDeneyimleri().forEach(adres -> {

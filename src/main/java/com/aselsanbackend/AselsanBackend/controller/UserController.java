@@ -115,7 +115,7 @@ public class UserController {
     @PostMapping("/login")
     public String loginUser(@RequestBody UserDto loginRequest) {
         User user = userService.findByTcKimlikNo(loginRequest.getTcKimlikNo());
-        String hashedPassword = PasswordHasher.hashPassword(loginRequest.getTcKimlikNo() + loginRequest.getPassword());
+        String hashedPassword = passwordHasher.hashPassword(loginRequest.getTcKimlikNo() + loginRequest.getPassword());
         if (user != null && user.getPassword().equals(hashedPassword) && generatedAuthenticationCode.equals(loginRequest.getAuthentication())) {
             return "Giriş başarılı!";
         }else if (!generatedAuthenticationCode.equals(loginRequest.getAuthentication())) { return "Doğrulama kodunu lütfen doğru giriniz !!!" ;}
