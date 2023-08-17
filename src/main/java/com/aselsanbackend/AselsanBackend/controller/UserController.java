@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @RestController
@@ -27,6 +29,23 @@ public class UserController {
     private final ProjeDeneyimleriService projeDeneyimleriService;
     private final EğitimBilgilerimService eğitimBilgilerimService;
     private final KariyerHedeflerimService kariyerHedeflerimService;
+
+
+
+    @GetMapping("/tcKimlikNo/{tcKimlikNo}")
+    public ResponseEntity<Map<String, String>> getKullaniciInfoByTcKimlikNo(@PathVariable String tcKimlikNo) {
+        User kullanici = userService.findByTcKimlikNo(tcKimlikNo);
+        if (kullanici == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Map<String, String> kullaniciInfo = new HashMap<>();
+        kullaniciInfo.put("ad", kullanici.getAd());
+        kullaniciInfo.put("soyad", kullanici.getSoyad());
+        kullaniciInfo.put("eposta", kullanici.getEPosta());
+
+        return ResponseEntity.ok(kullaniciInfo);
+    }
 
     @PostMapping("{tcKimlikNo}/kariyerHedeflerim")
     public ResponseEntity<KariyerHedeflerim> kariyerHedefiKaydet(@PathVariable String tcKimlikNo,
