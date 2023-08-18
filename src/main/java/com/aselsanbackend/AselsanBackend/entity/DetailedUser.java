@@ -6,7 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "detailed_user_version_2")
+@Table(name = "detailed_user")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

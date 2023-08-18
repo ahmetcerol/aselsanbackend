@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "users_version_2")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

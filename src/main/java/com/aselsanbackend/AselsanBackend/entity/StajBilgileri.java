@@ -3,8 +3,10 @@ package com.aselsanbackend.AselsanBackend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
-@Table(name = "staj_bilgileri")
+@Table(name = "staj_information")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,7 +22,7 @@ public class StajBilgileri {
     private String stajYeri;
     private String stajBölümü;
     private String stajSüresi;
-    private int stajYili;
+    private Date stajYili;
     private String stajTürü;
 
     @ManyToOne
