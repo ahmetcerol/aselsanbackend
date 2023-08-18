@@ -1,5 +1,6 @@
 package com.aselsanbackend.AselsanBackend.service.implementation;
 
+import com.aselsanbackend.AselsanBackend.dto.InfoDto;
 import com.aselsanbackend.AselsanBackend.dto.UserDto;
 import com.aselsanbackend.AselsanBackend.entity.*;
 import com.aselsanbackend.AselsanBackend.repository.DetailedUserRepository;
@@ -106,6 +107,52 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<InfoDto> getAllNecessary() {
+        List<User>  users = userRepository.findAll();
+        List<InfoDto> usersDtoS= new ArrayList<>();
+        users.forEach(it ->{
+            InfoDto userDto = new InfoDto();
+            userDto.setAd(it.getAd());
+            userDto.setSoyad(it.getSoyad());
+            userDto.setEPosta(it.getEPosta());
+
+            List<String> ilgiAlanlari = new ArrayList<>();
+            it.getAdresleri().forEach(adres -> {
+                ilgiAlanlari.add(adres.getIlgiAlanı());
+            });
+            userDto.setIlgiAlanları(ilgiAlanlari);
+
+
+            List<ProjeDeneyimleri> projeDeneyimleriList = new ArrayList<>();
+            it.getProjeDeneyimleri().forEach(adres -> {
+                ProjeDeneyimleri projeler = new ProjeDeneyimleri();
+                projeler.setProjeAdi(adres.getProjeAdi());
+                projeler.setProjeKurum(adres.getProjeKurum());
+                projeDeneyimleriList.add(projeler);
+            });
+            userDto.setProjeDeneyimleriList(projeDeneyimleriList);
+
+            List<StajBilgileri> stajBilgileris = new ArrayList<>();
+            it.getStajBilgileri().forEach(adres -> {
+                StajBilgileri stajBilgisi = new StajBilgileri();
+                stajBilgisi.setStajYeri(adres.getStajYeri());
+                stajBilgileris.add(stajBilgisi);
+            });
+            userDto.setStajBilgileriList(stajBilgileris);
+
+            List<EğitimBilgilerim> eğitimBilgilerims = new ArrayList<>();
+            it.getEğitimBilgilerimList().forEach(eğitim -> {
+                EğitimBilgilerim güncelEğitimler = new EğitimBilgilerim();
+                güncelEğitimler.setOkulAdi(eğitim.getOkulAdi());
+                eğitimBilgilerims.add(güncelEğitimler);
+            });
+            userDto.setEğitimBilgilerimList(eğitimBilgilerims);
+            usersDtoS.add(userDto);
+        });
+        return usersDtoS;
+    }
+
+    @Override
     public List<StajBilgileri> getStajBilgileri(User user) {
         List<StajBilgileri> stajBilgileriDtoList = new ArrayList<>();
         user.getStajBilgileri().forEach(stajBilgisi -> {
@@ -146,6 +193,13 @@ public class UserServiceImpl implements UserService {
             eğitimDtoList.add(güncelEğitimler);
         });
         return eğitimDtoList;
+    }
+
+    @Override
+    public String deletePersonByTcKimlikNumarasi(String tcKimlikNumarasi) {
+        User personsToDelete = userRepository.findByTcKimlikNo(tcKimlikNumarasi);
+        userRepository.delete(personsToDelete);
+        return "Kişisel Verileriniz Silindi";
     }
 
 

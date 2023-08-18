@@ -1,5 +1,6 @@
 package com.aselsanbackend.AselsanBackend.controller;
 
+import com.aselsanbackend.AselsanBackend.dto.InfoDto;
 import com.aselsanbackend.AselsanBackend.dto.UserDto;
 import com.aselsanbackend.AselsanBackend.entity.*;
 
@@ -102,6 +103,15 @@ public class UserController {
     @GetMapping("api/listele")
     public ResponseEntity<List<UserDto>> tumunuListele(){
         return ResponseEntity.ok(userService.getAll());
+    }
+    @GetMapping("api/getData")
+    public ResponseEntity<List<InfoDto>> gerekliOlanlarıListele(){
+        return ResponseEntity.ok(userService.getAllNecessary());
+    }
+
+    @DeleteMapping("/person/{tcKimlikNumarasi}")
+    public String deletePersonByTcKimlikNumarasi(@PathVariable String tcKimlikNumarasi) {
+        return userService.deletePersonByTcKimlikNumarasi(tcKimlikNumarasi);
     }
 
     @GetMapping("api/generateRandomString")
