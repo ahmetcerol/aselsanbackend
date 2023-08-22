@@ -116,38 +116,7 @@ public class UserServiceImpl implements UserService {
             userDto.setAd(it.getAd());
             userDto.setSoyad(it.getSoyad());
             userDto.setEPosta(it.getEPosta());
-
-            List<String> ilgiAlanlari = new ArrayList<>();
-            it.getAdresleri().forEach(adres -> {
-                ilgiAlanlari.add(adres.getIlgiAlanı());
-            });
-            userDto.setIlgiAlanları(ilgiAlanlari);
-
-
-            List<ProjeDeneyimleri> projeDeneyimleriList = new ArrayList<>();
-            it.getProjeDeneyimleri().forEach(adres -> {
-                ProjeDeneyimleri projeler = new ProjeDeneyimleri();
-                projeler.setProjeAdi(adres.getProjeAdi());
-                projeler.setProjeKurum(adres.getProjeKurum());
-                projeDeneyimleriList.add(projeler);
-            });
-            userDto.setProjeDeneyimleriList(projeDeneyimleriList);
-
-            List<StajBilgileri> stajBilgileris = new ArrayList<>();
-            it.getStajBilgileri().forEach(adres -> {
-                StajBilgileri stajBilgisi = new StajBilgileri();
-                stajBilgisi.setStajYeri(adres.getStajYeri());
-                stajBilgileris.add(stajBilgisi);
-            });
-            userDto.setStajBilgileriList(stajBilgileris);
-
-            List<EğitimBilgilerim> eğitimBilgilerims = new ArrayList<>();
-            it.getEğitimBilgilerimList().forEach(eğitim -> {
-                EğitimBilgilerim güncelEğitimler = new EğitimBilgilerim();
-                güncelEğitimler.setOkulAdi(eğitim.getOkulAdi());
-                eğitimBilgilerims.add(güncelEğitimler);
-            });
-            userDto.setEğitimBilgilerimList(eğitimBilgilerims);
+            userDto.setTcKimlikNo(it.getTcKimlikNo());
             usersDtoS.add(userDto);
         });
         return usersDtoS;

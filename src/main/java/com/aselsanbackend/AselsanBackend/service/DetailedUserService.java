@@ -6,4 +6,6 @@ public interface DetailedUserService {
     DetailedUser getByUserTcKimlikNo(String tcKimlikNo);
 
     DetailedUser saveDetailedUser(DetailedUser detailedUser);
+
+    boolean isuserActive(String tcKimlikNo);
 }

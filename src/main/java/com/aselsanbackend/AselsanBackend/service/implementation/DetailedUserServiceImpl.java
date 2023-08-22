@@ -26,4 +26,13 @@ public class DetailedUserServiceImpl implements DetailedUserService {
         detailedUserRepository.save(detailedUser);
         return detailedUser;
     }
+
+    @Override
+    public boolean isuserActive(String tcKimlikNo) {
+        DetailedUser detailedUser = detailedUserRepository.findByKimlikNo(tcKimlikNo);
+        if (detailedUser != null && detailedUser.isAktif()) {
+            return true;
+        }
+        return false;
+    }
 }

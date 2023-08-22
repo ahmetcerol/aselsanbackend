@@ -13,9 +13,6 @@ public class InfoDto {
     private String ePosta;
     private String ad;
     private String soyad;
+    private String tcKimlikNo;
 
-    private List<String> ilgiAlanları;
-    private List<StajBilgileri> stajBilgileriList;
-    private List<ProjeDeneyimleri> projeDeneyimleriList;
-    private List<EğitimBilgilerim> eğitimBilgilerimList;
 }

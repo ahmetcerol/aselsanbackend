@@ -1,6 +1,7 @@
 package com.aselsanbackend.AselsanBackend.service.implementation;
 
 import com.aselsanbackend.AselsanBackend.dto.UserDto;
+import com.aselsanbackend.AselsanBackend.entity.DetailedUser;
 import com.aselsanbackend.AselsanBackend.entity.KariyerHedeflerim;
 import com.aselsanbackend.AselsanBackend.entity.User;
 import com.aselsanbackend.AselsanBackend.repository.KariyerHedeflerimRepository;
@@ -21,4 +22,6 @@ public class KariyerHedeflerimServiceImpl implements KariyerHedeflerimService {
     public KariyerHedeflerim save(KariyerHedeflerim kariyerHedeflerim) {
         return kariyerHedeflerimRepository.save(kariyerHedeflerim);
     }
+
+
 }

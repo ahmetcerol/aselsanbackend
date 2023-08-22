@@ -11,7 +11,9 @@ public class TcKimlikNoVerification {
     }
 
     private boolean isValidFormat(String tcKimlikNo) {
-        String regex = "^[1-9][0-9]{10}$";
+        String regex = "^[1" +
+                "" +
+                "-9][0-9]{10}$";
         return tcKimlikNo.matches(regex);
     }
 

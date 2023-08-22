@@ -35,6 +35,11 @@ public class UserController {
     private final TcKimlikNoVerification tcKimlikNoVerification;
 
 
+    @GetMapping("/isUserActive/{tcKimlikNo}")
+    public boolean isUserActive(@PathVariable String tcKimlikNo) {
+        return detailedUserService.isuserActive(tcKimlikNo);
+    }
+
     @GetMapping("/{tcKimlikNo}")
     public String doğrulaTCKimlik(@PathVariable String tcKimlikNo) {
         boolean isValid = tcKimlikNoVerification.isValidTcKimlik(tcKimlikNo);
