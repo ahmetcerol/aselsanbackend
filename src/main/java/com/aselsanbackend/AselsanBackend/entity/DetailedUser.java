@@ -16,8 +16,8 @@ import java.io.Serializable;
 public class DetailedUser implements Serializable {
 
     @Id
-    @SequenceGenerator(name ="seq_detailedUser", allocationSize = 1)
-    @GeneratedValue(generator= "seq_detailedUser", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "seq_detailedUser", allocationSize = 1)
+    @GeneratedValue(generator = "seq_detailedUser", strategy = GenerationType.SEQUENCE)
     private long id;
     private String gender;
 
@@ -29,7 +29,7 @@ public class DetailedUser implements Serializable {
     private boolean Aktif;
 
     @OneToOne
-    @JoinColumn(name ="tcKimlikNo")
+    @JoinColumn(name = "tcKimlikNo")
     private User user;
 
 }

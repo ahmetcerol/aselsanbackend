@@ -17,12 +17,12 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
-    @Column(unique = true, length = 11,nullable = false)
+    @Column(unique = true, length = 11, nullable = false)
     private String tcKimlikNo;
     private String ePosta;
     private String ad;
     private String soyad;
-    private Date   birthDate;
+    private Date birthDate;
     private String password;
     private String nationality;
 

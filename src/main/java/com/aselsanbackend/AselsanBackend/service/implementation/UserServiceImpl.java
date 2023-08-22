@@ -24,11 +24,12 @@ public class UserServiceImpl implements UserService {
     private final DetailedUserRepository detailedUserRepository;
 
     @Autowired
-    private  PasswordHasher passwordHasher;
+    private PasswordHasher passwordHasher;
+
     @Override
     @Transactional
     public UserDto save(UserDto userDto) {
-        User user  = new User();
+        User user = new User();
         String hashedPassword = PasswordHasher.hashPassword(userDto.getTcKimlikNo() + userDto.getPassword());
         user.setTcKimlikNo(userDto.getTcKimlikNo());
         user.setNationality(userDto.getNationality());
@@ -50,9 +51,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAll() {
-        List<User>  users = userRepository.findAll();
-        List<UserDto> usersDtoS= new ArrayList<>();
-        users.forEach(it ->{
+        List<User> users = userRepository.findAll();
+        List<UserDto> usersDtoS = new ArrayList<>();
+        users.forEach(it -> {
             UserDto userDto = new UserDto();
             userDto.setNationality(it.getNationality());
             userDto.setTcKimlikNo(it.getTcKimlikNo());
@@ -108,9 +109,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<InfoDto> getAllNecessary() {
-        List<User>  users = userRepository.findAll();
-        List<InfoDto> usersDtoS= new ArrayList<>();
-        users.forEach(it ->{
+        List<User> users = userRepository.findAll();
+        List<InfoDto> usersDtoS = new ArrayList<>();
+        users.forEach(it -> {
             InfoDto userDto = new InfoDto();
             userDto.setAd(it.getAd());
             userDto.setSoyad(it.getSoyad());

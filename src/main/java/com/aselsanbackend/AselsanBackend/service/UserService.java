@@ -11,12 +11,20 @@ import java.util.List;
 
 public interface UserService {
     UserDto save(UserDto userDto);
-    User findByTcKimlikNo (String tcKimlikNo);
+
+    User findByTcKimlikNo(String tcKimlikNo);
+
     List<UserDto> getAll();
+
     List<InfoDto> getAllNecessary();
-    List<StajBilgileri> getStajBilgileri(User user );
-    List<ProjeDeneyimleri> getProjeDeneyimleri (User user);
+
+    List<StajBilgileri> getStajBilgileri(User user);
+
+    List<ProjeDeneyimleri> getProjeDeneyimleri(User user);
+
     List<EğitimBilgilerim> getEğitimBilgilerim(User user);
+
     String deletePersonByTcKimlikNumarasi(String tcKimlikNumarasi);
+
     boolean updatePasswordByTcKimlikNo(String tcKimlikNo, String newPassword);
 }

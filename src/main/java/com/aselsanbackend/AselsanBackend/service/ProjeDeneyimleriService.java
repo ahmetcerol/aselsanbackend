@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ProjeDeneyimleriService {
 
-    UserDto save (String tcKimlikNo, List<ProjeDeneyimleri> projeDeneyimleri);
+    UserDto save(String tcKimlikNo, List<ProjeDeneyimleri> projeDeneyimleri);
 }

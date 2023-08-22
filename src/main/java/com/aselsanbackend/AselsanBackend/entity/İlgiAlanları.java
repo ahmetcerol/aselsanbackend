@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of= {"id"})
+@EqualsAndHashCode(of = {"id"})
 @ToString
 public class İlgiAlanları implements Serializable {
 
@@ -21,7 +21,7 @@ public class İlgiAlanları implements Serializable {
     @GeneratedValue(generator = "seq_ilgi_alanları", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name="ilgi_alanı")
+    @Column(name = "ilgi_alanı")
     private String ilgiAlanı;
 
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface İlgiAlanlarıService {
 
-    UserDto save (String tcKimlikno, List<String> yeniAdresler);
+    UserDto save(String tcKimlikno, List<String> yeniAdresler);
 
 
 }

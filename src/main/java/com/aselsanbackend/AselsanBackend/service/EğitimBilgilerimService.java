@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface EğitimBilgilerimService {
 
-    UserDto save  (String tcKimlikNo, List<EğitimBilgilerim> eğitimBilgilerim);
+    UserDto save(String tcKimlikNo, List<EğitimBilgilerim> eğitimBilgilerim);
 }

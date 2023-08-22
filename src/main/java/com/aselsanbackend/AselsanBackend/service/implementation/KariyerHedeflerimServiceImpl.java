@@ -16,8 +16,9 @@ public class KariyerHedeflerimServiceImpl implements KariyerHedeflerimService {
 
     private final UserRepository userRepository;
     private final KariyerHedeflerimRepository kariyerHedeflerimRepository;
+
     @Override
-    public KariyerHedeflerim save( KariyerHedeflerim kariyerHedeflerim) {
+    public KariyerHedeflerim save(KariyerHedeflerim kariyerHedeflerim) {
         return kariyerHedeflerimRepository.save(kariyerHedeflerim);
     }
 }

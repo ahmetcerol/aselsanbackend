@@ -19,12 +19,13 @@ public class EğitimBilgilerimServiceImpl implements EğitimBilgilerimService {
 
     private final UserRepository userRepository;
     private final EğitimBilgilerimRepository eğitimBilgilerimRepository;
+
     @Override
     public UserDto save(String tcKimlikNo, List<EğitimBilgilerim> eğitimBilgilerim) {
         User user = userRepository.findByTcKimlikNo(tcKimlikNo);
 
         List<EğitimBilgilerim> eğitimBilgilerimList = user.getEğitimBilgilerimList();
-        eğitimBilgilerim.forEach(it ->{
+        eğitimBilgilerim.forEach(it -> {
             EğitimBilgilerim eskiEğitimler = new EğitimBilgilerim();
             eskiEğitimler.setOkulAdi(it.getOkulAdi());
             eskiEğitimler.setStartDate(it.getStartDate());

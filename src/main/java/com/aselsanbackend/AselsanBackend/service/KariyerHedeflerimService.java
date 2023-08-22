@@ -6,5 +6,5 @@ import com.aselsanbackend.AselsanBackend.repository.KariyerHedeflerimRepository;
 
 public interface KariyerHedeflerimService {
 
-    KariyerHedeflerim save  (KariyerHedeflerim kariyerHedeflerim);
+    KariyerHedeflerim save(KariyerHedeflerim kariyerHedeflerim);
 }

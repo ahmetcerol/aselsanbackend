@@ -5,9 +5,11 @@ import com.aselsanbackend.AselsanBackend.dto.UserDto;
 import com.aselsanbackend.AselsanBackend.entity.*;
 
 import com.aselsanbackend.AselsanBackend.security.PasswordHasher;
+import com.aselsanbackend.AselsanBackend.security.TcKimlikNoVerification;
 import com.aselsanbackend.AselsanBackend.service.*;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +32,18 @@ public class UserController {
     private final ProjeDeneyimleriService projeDeneyimleriService;
     private final EğitimBilgilerimService eğitimBilgilerimService;
     private final KariyerHedeflerimService kariyerHedeflerimService;
+    private final TcKimlikNoVerification tcKimlikNoVerification;
 
+
+    @GetMapping("/{tcKimlikNo}")
+    public String doğrulaTCKimlik(@PathVariable String tcKimlikNo) {
+        boolean isValid = tcKimlikNoVerification.isValidTcKimlik(tcKimlikNo);
+        if (isValid) {
+            return "T.C. Kimlik Numarası doğrulandı";
+        } else {
+            return "Geçersiz T.C Kimlik Numarası";
+        }
+    }
 
 
     @GetMapping("/tcKimlikNo/{tcKimlikNo}")
@@ -48,6 +61,27 @@ public class UserController {
         return ResponseEntity.ok(kullaniciInfo);
     }
 
+    @GetMapping("/listeleme/{tcKimlikNo}")
+    public ResponseEntity<Map<String, String>> listelemek(@PathVariable String tcKimlikNo) {
+        User kullanici = userService.findByTcKimlikNo(tcKimlikNo);
+        if (kullanici == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Map<String, String> kullaniciInfo = new HashMap<>();
+        kullaniciInfo.put("ad", kullanici.getAd());
+        kullaniciInfo.put("soyad", kullanici.getSoyad());
+        kullaniciInfo.put("eposta", kullanici.getEPosta());
+        kullaniciInfo.put("tcKimlikNo", kullanici.getTcKimlikNo());
+        kullaniciInfo.put("stajBilgileri", userService.getStajBilgileri(kullanici).toString());
+        kullaniciInfo.put("egitimBilgilerim", userService.getEğitimBilgilerim(kullanici).toString());
+        kullaniciInfo.put("projeDeneyimleri", userService.getProjeDeneyimleri(kullanici).toString());
+
+
+        return ResponseEntity.ok(kullaniciInfo);
+    }
+
+
     @PostMapping("{tcKimlikNo}/kariyerHedeflerim")
     public ResponseEntity<KariyerHedeflerim> kariyerHedefiKaydet(@PathVariable String tcKimlikNo,
                                                                  @RequestBody KariyerHedeflerim kariyerHedef) {
@@ -56,38 +90,38 @@ public class UserController {
 
         if (existingUser == null) {
             return ResponseEntity.badRequest().build();
-        }
-        else { kariyerHedef.setTcKimlikNo(tcKimlikNo);
+        } else {
+            kariyerHedef.setTcKimlikNo(tcKimlikNo);
             KariyerHedeflerim savedHedef = kariyerHedeflerimService.save(kariyerHedef);
-            return ResponseEntity.ok(savedHedef);}
+            return ResponseEntity.ok(savedHedef);
+        }
 
     }
 
 
-    @PostMapping ("{tcKimlikNo}/egitimBilgilerim")
-    public ResponseEntity<UserDto> addEgitimBilgisi (@PathVariable String tcKimlikNo,
-                                                     @RequestBody List<EğitimBilgilerim> eğitimBilgilerims){
-        UserDto response = eğitimBilgilerimService.save(tcKimlikNo,eğitimBilgilerims);
+    @PostMapping("{tcKimlikNo}/egitimBilgilerim")
+    public ResponseEntity<UserDto> addEgitimBilgisi(@PathVariable String tcKimlikNo,
+                                                    @RequestBody List<EğitimBilgilerim> eğitimBilgilerims) {
+        UserDto response = eğitimBilgilerimService.save(tcKimlikNo, eğitimBilgilerims);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("{tcKimlikNo}/projeDeneyimleri")
-    public ResponseEntity <UserDto> addProjeDeneyimi (@PathVariable String tcKimlikNo,
-                                                      @RequestBody List<ProjeDeneyimleri> projeDeneyimleri) {
-        UserDto response = projeDeneyimleriService.save(tcKimlikNo,projeDeneyimleri);
+    public ResponseEntity<UserDto> addProjeDeneyimi(@PathVariable String tcKimlikNo,
+                                                    @RequestBody List<ProjeDeneyimleri> projeDeneyimleri) {
+        UserDto response = projeDeneyimleriService.save(tcKimlikNo, projeDeneyimleri);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("{tcKimlikNo}/stajBilgileri")
-    public ResponseEntity <UserDto> addStajBilgisi(@PathVariable String tcKimlikNo,
-                                                   @RequestBody List<StajBilgileri> stajBilgileri)
-    {
-        UserDto response = stajBilgileriService.save(tcKimlikNo,stajBilgileri);
+    public ResponseEntity<UserDto> addStajBilgisi(@PathVariable String tcKimlikNo,
+                                                  @RequestBody List<StajBilgileri> stajBilgileri) {
+        UserDto response = stajBilgileriService.save(tcKimlikNo, stajBilgileri);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("api/kisi")
-    public ResponseEntity<UserDto> ekle(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> ekle(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.save(userDto));
     }
 
@@ -101,13 +135,15 @@ public class UserController {
     }
 
     @GetMapping("api/listele")
-    public ResponseEntity<List<UserDto>> tumunuListele(){
+    public ResponseEntity<List<UserDto>> tumunuListele() {
         return ResponseEntity.ok(userService.getAll());
     }
+
     @GetMapping("api/getData")
-    public ResponseEntity<List<InfoDto>> gerekliOlanlarıListele(){
+    public ResponseEntity<List<InfoDto>> gerekliOlanlarıListele() {
         return ResponseEntity.ok(userService.getAllNecessary());
     }
+
 
     @DeleteMapping("/person/{tcKimlikNumarasi}")
     public String deletePersonByTcKimlikNumarasi(@PathVariable String tcKimlikNumarasi) {
@@ -147,8 +183,9 @@ public class UserController {
         String hashedPassword = passwordHasher.hashPassword(loginRequest.getTcKimlikNo() + loginRequest.getPassword());
         if (user != null && user.getPassword().equals(hashedPassword) && generatedAuthenticationCode.equals(loginRequest.getAuthentication())) {
             return "Giriş başarılı!";
-        }else if (!generatedAuthenticationCode.equals(loginRequest.getAuthentication())) { return "Doğrulama kodunu lütfen doğru giriniz !!!" ;}
-        else {
+        } else if (!generatedAuthenticationCode.equals(loginRequest.getAuthentication())) {
+            return "Doğrulama kodunu lütfen doğru giriniz !!!";
+        } else {
             return "Giriş başarısız! Lütfen bilgilerinizi kontrol edin.";
         }
     }

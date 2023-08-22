@@ -19,6 +19,7 @@ public class StajBilgileriServiceImpl implements StajBilgileriService {
 
     private final UserRepository userRepository;
     private final StajBilgileriRepository stajBilgileriRepository;
+
     @Override
     public UserDto save(String tcKimlikno, List<StajBilgileri> stajBilgileri) {
 

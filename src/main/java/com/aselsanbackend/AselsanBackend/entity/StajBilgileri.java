@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of= {"id"})
+@EqualsAndHashCode(of = {"id"})
 @ToString
 public class StajBilgileri {
     @Id

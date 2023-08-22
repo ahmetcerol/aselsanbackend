@@ -20,6 +20,7 @@ public class İlgiAlanlarıServiceImpl implements İlgiAlanlarıService {
 
     private final İlgiAlanlarıRepository i̇lgiAlanlarıRepository;
     private final UserRepository userRepository;
+
     @Override
     public UserDto save(String tcKimlikno, List<String> yeniAdresler) {
         User kisi = userRepository.findByTcKimlikNo(tcKimlikno);

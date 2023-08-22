@@ -17,7 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjeDeneyimleriServiceImpl implements ProjeDeneyimleriService {
     private final UserRepository userRepository;
-    private  final ProjeDeneyimleriRepository projeDeneyimleriRepository;
+    private final ProjeDeneyimleriRepository projeDeneyimleriRepository;
+
     @Override
     public UserDto save(String tcKimlikNo, List<ProjeDeneyimleri> projeDeneyimleri) {
         User user = userRepository.findByTcKimlikNo(tcKimlikNo);
