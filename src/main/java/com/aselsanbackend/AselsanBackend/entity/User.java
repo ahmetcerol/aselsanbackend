@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -44,6 +44,7 @@ public class User implements Serializable {
     @OneToMany
     @JoinColumn(name = "tc_kimlik_no")
     private List<EğitimBilgilerim> eğitimBilgilerimList;
+
 
 
 }

@@ -25,6 +25,7 @@ public class UserDto {
     private List<StajBilgileri> stajBilgileriList;
     private List<ProjeDeneyimleri> projeDeneyimleriList;
     private List<EğitimBilgilerim> eğitimBilgilerimList;
+    private Application application;
 
 
 }

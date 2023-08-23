@@ -33,7 +33,34 @@ public class UserController {
     private final EğitimBilgilerimService eğitimBilgilerimService;
     private final KariyerHedeflerimService kariyerHedeflerimService;
     private final TcKimlikNoVerification tcKimlikNoVerification;
+    private final ApplicationService applicationService;
 
+
+    @GetMapping("approve/{tcKimlikNo}")
+    public ResponseEntity<Application> getApplicationStatusByTcKimlikNo(@PathVariable String tcKimlikNo) {
+        Application application = applicationService.findByTcKimlikNo(tcKimlikNo);
+
+        if (application != null) {
+            return ResponseEntity.ok(application);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{tcKimlikNo}/approve")
+    public  ResponseEntity<Application> updateApplicationApproval(
+            @PathVariable String tcKimlikNo,
+            @RequestBody Application application) {
+        User existingUser = userService.findByTcKimlikNo(tcKimlikNo);
+
+        if (existingUser == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            application.setTcKimlikNo(tcKimlikNo);
+                Application saveApplication = applicationService.updateApplicationStatus(application);
+            return ResponseEntity.ok(saveApplication);
+        }
+    }
 
     @GetMapping("/isUserActive/{tcKimlikNo}")
     public boolean isUserActive(@PathVariable String tcKimlikNo) {
